@@ -76,10 +76,14 @@ class AdminPanel {
             if (e.target === timeSlotModal) this.closeTimeSlotModal();
         });
 
-        // Atualizar cores em tempo real
+        // Atualizar cores em tempo real e refletir no index
         const colorInputs = document.querySelectorAll('input[type="color"]');
         colorInputs.forEach(input => {
-            input.addEventListener('change', () => this.updateColorsPreview());
+            input.addEventListener('change', () => {
+                this.updateColorsPreview();
+                // salvar parcial para refletir imediatamente
+                this.saveColorSettings(false);
+            });
         });
 
         // Configurações do dashboard
@@ -525,6 +529,9 @@ class AdminPanel {
 
         this.services.push(service);
         localStorage.setItem('services', JSON.stringify(this.services));
+        if (window.SharedStore) {
+            SharedStore.writeJSON(SharedStore.KEYS.services, this.services);
+        }
 
         this.loadServices();
         this.updateDashboard();
@@ -558,6 +565,9 @@ class AdminPanel {
         if (confirm('Tem certeza que deseja excluir este serviço?')) {
             this.services = this.services.filter(s => s.id !== serviceId);
             localStorage.setItem('services', JSON.stringify(this.services));
+            if (window.SharedStore) {
+                SharedStore.writeJSON(SharedStore.KEYS.services, this.services);
+            }
             this.loadServices();
             this.updateDashboard();
 
@@ -685,6 +695,9 @@ class AdminPanel {
         });
 
         localStorage.setItem('schedule', JSON.stringify(this.schedule));
+        if (window.SharedStore) {
+            SharedStore.writeJSON(SharedStore.KEYS.schedule, this.schedule);
+        }
         this.loadSchedule();
         this.updateDashboard();
         this.closeTimeSlotModal();
@@ -706,6 +719,9 @@ class AdminPanel {
         if (confirm('Tem certeza que deseja remover este horário?')) {
             this.schedule[day] = this.schedule[day].filter(slot => slot.time !== time);
             localStorage.setItem('schedule', JSON.stringify(this.schedule));
+            if (window.SharedStore) {
+                SharedStore.writeJSON(SharedStore.KEYS.schedule, this.schedule);
+            }
             this.loadSchedule();
             this.updateDashboard();
 
@@ -752,6 +768,9 @@ class AdminPanel {
         };
 
         localStorage.setItem('businessInfo', JSON.stringify(this.businessInfo));
+        if (window.SharedStore) {
+            SharedStore.writeJSON(SharedStore.KEYS.businessInfo, this.businessInfo);
+        }
         
         // Salvar configurações de cores
         this.saveColorSettings();
@@ -852,7 +871,7 @@ class AdminPanel {
     }
 
     // Salvar configurações de cores
-    saveColorSettings() {
+    saveColorSettings(saveAlert = true) {
         const colorSettings = {
             primary: document.getElementById('primaryColor').value,
             secondary: document.getElementById('secondaryColor').value,
@@ -865,14 +884,20 @@ class AdminPanel {
             accent: document.getElementById('adminAccentColor').value,
             bg: document.getElementById('adminBgColor').value
         };
+        // Escrever via SharedStore para disparar eventos
+        if (window.SharedStore) {
+            SharedStore.writeJSON(SharedStore.KEYS.colorSettings, colorSettings);
+            SharedStore.writeJSON(SharedStore.KEYS.adminColorSettings, adminColorSettings);
+        } else {
+            localStorage.setItem('colorSettings', JSON.stringify(colorSettings));
+            localStorage.setItem('adminColorSettings', JSON.stringify(adminColorSettings));
+        }
 
-        localStorage.setItem('colorSettings', JSON.stringify(colorSettings));
-        localStorage.setItem('adminColorSettings', JSON.stringify(adminColorSettings));
-
-        // Aplicar cores imediatamente
+        // Aplicar cores imediatamente no painel
         this.updateColorsPreview();
-        
-        alert('Configurações de cores salvas com sucesso!');
+        if (saveAlert) {
+            alert('Configurações de cores salvas com sucesso!');
+        }
     }
 
     // Formatar data
@@ -889,6 +914,9 @@ class AdminPanel {
         appointment.status = 'confirmed';
         appointment.confirmedAt = new Date().toISOString();
         localStorage.setItem('appointments', JSON.stringify(this.appointments));
+        if (window.SharedStore) {
+            SharedStore.writeJSON(SharedStore.KEYS.appointments, this.appointments);
+        }
 
         // Enviar confirmação via WhatsApp para o cliente
         this.sendConfirmationToClient(appointment, 'confirm');
@@ -912,6 +940,9 @@ class AdminPanel {
         appointment.cancelledAt = new Date().toISOString();
         appointment.cancellationReason = reason;
         localStorage.setItem('appointments', JSON.stringify(this.appointments));
+        if (window.SharedStore) {
+            SharedStore.writeJSON(SharedStore.KEYS.appointments, this.appointments);
+        }
 
         // Enviar rejeição via WhatsApp para o cliente
         this.sendConfirmationToClient(appointment, 'reject', reason);
@@ -931,6 +962,9 @@ class AdminPanel {
             appointment.status = 'completed';
             appointment.completedAt = new Date().toISOString();
             localStorage.setItem('appointments', JSON.stringify(this.appointments));
+            if (window.SharedStore) {
+                SharedStore.writeJSON(SharedStore.KEYS.appointments, this.appointments);
+            }
 
             this.updateDashboard();
             this.loadAppointmentsTable();

@@ -15,10 +15,20 @@ class AppointmentSystem {
         this.updateBusinessName();
         this.loadServices();
         this.setupDateValidation();
-        this.setupThemeSelector();
-        
-        // Verificar atualizações de cores periodicamente
-        this.setupColorUpdateListener();
+        // Removido seletor de tema local; cores vêm do admin via localStorage
+        this.applyTheme('default');
+        // Aplicar cores do admin ao iniciar
+        if (window.SharedStore) {
+            SharedStore.applyClientColorsFromStorage();
+            SharedStore.onSharedChange((key) => {
+                if (key === SharedStore.KEYS.colorSettings) {
+                    SharedStore.applyClientColorsFromStorage();
+                }
+                if (key === SharedStore.KEYS.services || key === SharedStore.KEYS.schedule || key === SharedStore.KEYS.businessInfo || key === SharedStore.KEYS.appointments) {
+                    this.updateData();
+                }
+            });
+        }
     }
 
     // Carregar dados salvos
@@ -28,10 +38,9 @@ class AppointmentSystem {
         this.businessInfo = JSON.parse(localStorage.getItem('businessInfo') || '{}');
         this.appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
         
-        // Aplicar tema salvo
-        const savedTheme = localStorage.getItem('theme') || 'default';
+        // Aplicar tema default (cores virão do admin)
+        const savedTheme = 'default';
         this.applyTheme(savedTheme);
-        document.getElementById('themeSelect').value = savedTheme;
     }
 
     // Configurar event listeners
@@ -53,23 +62,7 @@ class AppointmentSystem {
             if (e.target === modal) this.closeModal();
         });
 
-        // Modal de cores
-        const colorSettingsBtn = document.getElementById('colorSettingsBtn');
-        const colorSettingsModal = document.getElementById('colorSettingsModal');
-        const colorModalCloseBtn = colorSettingsModal.querySelector('.close');
-
-        colorSettingsBtn.addEventListener('click', () => this.showColorSettingsModal());
-        colorModalCloseBtn.addEventListener('click', () => this.closeColorSettingsModal());
-        
-        window.addEventListener('click', (e) => {
-            if (e.target === colorSettingsModal) this.closeColorSettingsModal();
-        });
-
-        // Atualizar cores em tempo real
-        const colorInputs = document.querySelectorAll('input[type="color"]');
-        colorInputs.forEach(input => {
-            input.addEventListener('change', () => this.updateColorsPreview());
-        });
+        // Removidos controles de modal de cores no index
     }
 
     // Configurar validação de datas
@@ -85,14 +78,7 @@ class AppointmentSystem {
         dateInput.addEventListener('change', () => this.updateAvailableTimes());
     }
 
-    // Configurar seletor de temas
-    setupThemeSelector() {
-        const themeSelect = document.getElementById('themeSelect');
-        themeSelect.addEventListener('change', (e) => {
-            this.applyTheme(e.target.value);
-            localStorage.setItem('theme', e.target.value);
-        });
-    }
+    // Removido seletor de temas local (tema definido pelo admin)
 
     // Aplicar tema
     applyTheme(theme) {
@@ -112,75 +98,9 @@ class AppointmentSystem {
         if (colorSettings.accent) root.style.setProperty('--accent-color', colorSettings.accent);
     }
 
-    // Configurar listener para atualizações de cores
-    setupColorUpdateListener() {
-        // Verificar mudanças no localStorage a cada 2 segundos
-        setInterval(() => {
-            const currentSettings = JSON.stringify(JSON.parse(localStorage.getItem('colorSettings') || '{}'));
-            if (this.lastColorSettings !== currentSettings) {
-                this.lastColorSettings = currentSettings;
-                this.applyCustomColors();
-            }
-        }, 2000);
-    }
+    // Removido polling; usamos eventos de storage via SharedStore
 
-    // Mostrar modal de configuração de cores
-    showColorSettingsModal() {
-        const modal = document.getElementById('colorSettingsModal');
-        modal.style.display = 'block';
-        
-        // Carregar cores atuais
-        this.loadCurrentColors();
-        this.updateColorsPreview();
-    }
-
-    // Fechar modal de configuração de cores
-    closeColorSettingsModal() {
-        const modal = document.getElementById('colorSettingsModal');
-        modal.style.display = 'none';
-    }
-
-    // Carregar cores atuais
-    loadCurrentColors() {
-        const colorSettings = JSON.parse(localStorage.getItem('colorSettings') || '{}');
-        
-        if (colorSettings.primary) {
-            document.getElementById('primaryColor').value = colorSettings.primary;
-        }
-        if (colorSettings.secondary) {
-            document.getElementById('secondaryColor').value = colorSettings.secondary;
-        }
-        if (colorSettings.accent) {
-            document.getElementById('accentColor').value = colorSettings.accent;
-        }
-    }
-
-    // Atualizar preview das cores
-    updateColorsPreview() {
-        const primaryColor = document.getElementById('primaryColor').value;
-        const secondaryColor = document.getElementById('secondaryColor').value;
-        const accentColor = document.getElementById('accentColor').value;
-
-        document.getElementById('previewPrimary').style.backgroundColor = primaryColor;
-        document.getElementById('previewSecondary').style.backgroundColor = secondaryColor;
-        document.getElementById('previewAccent').style.backgroundColor = accentColor;
-    }
-
-    // Salvar configurações de cores
-    saveColorSettings() {
-        const colorSettings = {
-            primary: document.getElementById('primaryColor').value,
-            secondary: document.getElementById('secondaryColor').value,
-            accent: document.getElementById('accentColor').value
-        };
-
-        localStorage.setItem('colorSettings', JSON.stringify(colorSettings));
-
-        // Aplicar cores imediatamente
-        this.applyCustomColors();
-        
-        alert('Configurações de cores salvas com sucesso!');
-    }
+    // Removidas funções de modal e salvamento de cores do index
 
     // Atualizar nome da empresa
     updateBusinessName() {
@@ -308,6 +228,9 @@ class AppointmentSystem {
         // Salvar agendamento
         this.appointments.push(appointment);
         localStorage.setItem('appointments', JSON.stringify(this.appointments));
+        if (window.SharedStore) {
+            SharedStore.writeJSON(SharedStore.KEYS.appointments, this.appointments);
+        }
 
         // Notificar empresa via WhatsApp sobre nova reserva
         this.notifyBusinessNewAppointment(appointment);
