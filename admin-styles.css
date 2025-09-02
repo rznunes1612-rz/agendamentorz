@@ -1,0 +1,1146 @@
+/* Reset e configurações básicas */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variáveis CSS para personalização do painel admin */
+:root {
+    --admin-primary-color: #4CAF50;
+    --admin-secondary-color: #2196F3;
+    --admin-accent-color: #FF9800;
+    --admin-bg-color: #f5f7fa;
+    --admin-card-bg: #ffffff;
+    --admin-text-color: #333;
+    --admin-border-color: #e0e0e0;
+    --admin-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--admin-text-color);
+    background: var(--admin-bg-color);
+    min-height: 100vh;
+}
+
+/* Container administrativo */
+.admin-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header administrativo */
+.admin-header {
+    background: var(--admin-card-bg);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: var(--admin-shadow);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.admin-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-logo i {
+    font-size: 2.5rem;
+    color: var(--admin-primary-color);
+}
+
+.admin-logo h1 {
+    color: var(--admin-primary-color);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* Navegação */
+.admin-nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    padding: 12px 20px;
+    border: 2px solid var(--admin-border-color);
+    background: var(--admin-card-bg);
+    color: #666;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.nav-btn:hover {
+    border-color: var(--admin-primary-color);
+    color: var(--admin-primary-color);
+}
+
+.nav-btn.active {
+    background: var(--admin-primary-color);
+    color: white;
+    border-color: var(--admin-primary-color);
+}
+
+/* Conteúdo das abas */
+.tab-content {
+    display: none;
+    background: var(--admin-card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: var(--admin-shadow);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h2 {
+    color: var(--admin-primary-color);
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.dashboard-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+.dashboard-card i {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.dashboard-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.dashboard-card p {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Cards específicos do dashboard */
+.revenue-card {
+    background: linear-gradient(135deg, var(--admin-primary-color) 0%, #45a049 100%);
+}
+
+.week-revenue-card {
+    background: linear-gradient(135deg, var(--admin-secondary-color) 0%, #1976D2 100%);
+}
+
+.clients-card {
+    background: linear-gradient(135deg, var(--admin-accent-color) 0%, #F57C00 100%);
+}
+
+.confirmed-card {
+    background: linear-gradient(135deg, var(--admin-primary-color) 0%, #45a049 100%);
+}
+
+.pending-card {
+    background: linear-gradient(135deg, var(--admin-accent-color) 0%, #F57C00 100%);
+}
+
+.completed-card {
+    background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+}
+
+.total-card {
+    background: linear-gradient(135deg, #607D8B 0%, #455A64 100%);
+}
+
+/* Relatório de Faturamento */
+.revenue-report {
+    background: var(--admin-card-bg);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: var(--admin-shadow);
+    margin-top: 30px;
+}
+
+.revenue-report h3 {
+    color: var(--admin-primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.chart-container {
+    margin-top: 20px;
+}
+
+.revenue-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.revenue-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.bar-label {
+    min-width: 150px;
+    font-weight: 600;
+    color: #333;
+}
+
+.bar-container {
+    flex: 1;
+    height: 20px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--admin-primary-color), #45a049);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.bar-value {
+    min-width: 100px;
+    text-align: right;
+    font-weight: 600;
+    color: #4CAF50;
+}
+
+/* Agendamentos pendentes, confirmados e recentes */
+.pending-appointments,
+.confirmed-appointments,
+.recent-appointments {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 30px;
+}
+
+.pending-appointments h3,
+.confirmed-appointments h3,
+.recent-appointments h3 {
+    color: #4CAF50;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.appointments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.appointment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #4CAF50;
+}
+
+.appointment-item.pending {
+    border-left-color: #FF9800;
+}
+
+.appointment-info h4 {
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.appointment-info p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 2px 0;
+}
+
+.appointment-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.appointment-status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.appointment-status.confirmed {
+    background: #4CAF50;
+    color: white;
+}
+
+.appointment-status.pending {
+    background: #FF9800;
+    color: white;
+}
+
+.appointment-status.completed {
+    background: #9C27B0;
+    color: white;
+}
+
+/* Botões de ação */
+.btn-confirm,
+.btn-reject,
+.btn-whatsapp,
+.btn-complete {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-confirm {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-confirm:hover {
+    background: #45a049;
+}
+
+.btn-reject {
+    background: #f44336;
+    color: white;
+}
+
+.btn-reject:hover {
+    background: #d32f2f;
+}
+
+.btn-whatsapp {
+    background: #25D366;
+    color: white;
+}
+
+.btn-whatsapp:hover {
+    background: #128C7E;
+}
+
+.btn-complete {
+    background: #9C27B0;
+    color: white;
+}
+
+.btn-complete:hover {
+    background: #7B1FA2;
+}
+
+/* Formulários administrativos */
+.admin-form {
+    max-width: 800px;
+    margin: 0 auto 40px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Botões */
+.btn-primary {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-primary:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-secondary:hover {
+    background: #1976D2;
+    transform: translateY(-2px);
+}
+
+/* Lista de serviços */
+.services-list h3 {
+    color: #4CAF50;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.service-item {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.service-item:hover {
+    border-color: #4CAF50;
+    transform: translateY(-2px);
+}
+
+.service-item h4 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.service-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.service-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #4CAF50;
+}
+
+.service-duration {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.service-description {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.service-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-edit,
+.btn-delete {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-edit {
+    background: #FF9800;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #F57C00;
+}
+
+.btn-delete {
+    background: #F44336;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #D32F2F;
+}
+
+/* Controles de horário */
+.schedule-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+/* Validação de horários */
+.schedule-validation {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.schedule-validation h3 {
+    color: #4CAF50;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.validation-info p {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.validation-info strong {
+    color: #4CAF50;
+}
+
+/* Filtros de agendamentos */
+.appointments-filters {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.filter-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    align-items: end;
+}
+
+/* Tabela de agendamentos */
+.appointments-table {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.table-header {
+    background: #4CAF50;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-header h3 {
+    margin: 0;
+    color: white;
+}
+
+.appointments-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.appointments-table th,
+.appointments-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.appointments-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
+.appointments-table tr:hover {
+    background: #f8f9fa;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-badge.confirmed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-badge.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-badge.cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Grade de horários */
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.day-column {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.day-column h3 {
+    color: #4CAF50;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.time-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.time-slot {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.time-slot:hover {
+    border-color: #4CAF50;
+    background: #f0f8f0;
+}
+
+.time-slot.available {
+    border-color: #4CAF50;
+    background: #e8f5e8;
+}
+
+.time-slot.booked {
+    border-color: #F44336;
+    background: #ffebee;
+    color: #666;
+}
+
+.time-slot .remove-slot {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #F44336;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: none;
+}
+
+.time-slot:hover .remove-slot {
+    display: block;
+}
+
+/* Configurações de cores */
+.color-settings {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.color-settings h3 {
+    color: var(--admin-primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.color-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.color-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-group label {
+    font-weight: 600;
+    color: #333;
+}
+
+.color-group input[type="color"] {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Controles de cores do painel admin */
+.admin-color-controls {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 1px solid var(--admin-border-color);
+}
+
+.admin-color-controls h4 {
+    color: var(--admin-primary-color);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.admin-color-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.admin-color-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-color-group label {
+    font-weight: 600;
+    color: var(--admin-text-color);
+    font-size: 0.9rem;
+}
+
+.admin-color-group input[type="color"] {
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--admin-border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.admin-color-group input[type="color"]:hover {
+    border-color: var(--admin-primary-color);
+}
+
+/* Preview das cores */
+.color-preview {
+    margin-top: 15px;
+    padding: 15px;
+    background: var(--admin-card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--admin-border-color);
+}
+
+.color-preview h5 {
+    color: var(--admin-text-color);
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.preview-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.preview-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid var(--admin-border-color);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #4CAF50;
+}
+
+/* Checkboxes de dias da semana */
+.days-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.day-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.day-checkbox:hover {
+    border-color: #4CAF50;
+    background: #f8f9fa;
+}
+
+.day-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #4CAF50;
+}
+
+.day-checkbox span {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Ações do formulário */
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.form-actions button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-actions .btn-primary {
+    background: var(--admin-primary-color);
+    color: white;
+}
+
+.form-actions .btn-primary:hover {
+    background: #45a049;
+}
+
+.form-actions .btn-secondary {
+    background: var(--admin-secondary-color);
+    color: white;
+}
+
+.form-actions .btn-secondary:hover {
+    background: #1976D2;
+}
+
+.modal h3 {
+    color: #4CAF50;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 15px;
+    }
+    
+    .admin-header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .admin-nav {
+        justify-content: center;
+    }
+    
+    .nav-btn {
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+    
+    .tab-content {
+        padding: 20px;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .schedule-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        margin: 20% auto;
+        width: 95%;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-logo h1 {
+        font-size: 1.5rem;
+    }
+    
+    .tab-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .schedule-controls {
+        flex-direction: column;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Configurações do Dashboard */
+.dashboard-config {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.dashboard-config h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.dashboard-config p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+}
+
+.dashboard-flags {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.flag-group {
+    display: flex;
+    align-items: center;
+}
+
+.flag-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.flag-checkbox:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+.flag-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+}
+
+.flag-checkbox span {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.dashboard-actions .btn-primary,
+.dashboard-actions .btn-secondary {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 0.95rem;
+}
+
+.dashboard-actions .btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.dashboard-actions .btn-primary:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.dashboard-actions .btn-secondary {
+    background: var(--border-color);
+    color: var(--text-color);
+}
+
+.dashboard-actions .btn-secondary:hover {
+    background: var(--accent-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}

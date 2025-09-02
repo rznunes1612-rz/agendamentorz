@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Agendamento</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="admin-logo">
+                <i class="fas fa-cog"></i>
+                <h1>Painel Administrativo</h1>
+            </div>
+            <nav class="admin-nav">
+                <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
+                <button class="nav-btn" data-tab="appointments">Agendamentos</button>
+                <button class="nav-btn" data-tab="services">Serviços</button>
+                <button class="nav-btn" data-tab="schedule">Horários</button>
+                <button class="nav-btn" data-tab="settings">Configurações</button>
+            </nav>
+        </header>
+
+        <main class="admin-content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <h2>Dashboard</h2>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <i class="fas fa-calendar-day"></i>
+                        <h3>Agendamentos Hoje</h3>
+                        <p id="todayAppointments">0</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-calendar-week"></i>
+                        <h3>Esta Semana</h3>
+                        <p id="weekAppointments">0</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-list"></i>
+                        <h3>Total de Serviços</h3>
+                        <p id="totalServices">0</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>Horários Ativos</h3>
+                        <p id="activeSlots">0</p>
+                    </div>
+                </div>
+                
+                <div class="pending-appointments">
+                    <h3>Agendamentos Pendentes de Confirmação</h3>
+                    <div id="pendingAppointmentsList" class="appointments-list">
+                        <!-- Lista será preenchida dinamicamente -->
+                    </div>
+                </div>
+                
+                <div class="confirmed-appointments">
+                    <h3>Agendamentos Confirmados</h3>
+                    <div id="confirmedAppointmentsList" class="appointments-list">
+                        <!-- Lista será preenchida dinamicamente -->
+                    </div>
+                </div>
+                
+                <div class="recent-appointments">
+                    <h3>Agendamentos Recentes</h3>
+                    <div id="recentAppointmentsList" class="appointments-list">
+                        <!-- Lista será preenchida dinamicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointments Tab -->
+            <div id="appointments" class="tab-content">
+                <h2>Gerenciar Agendamentos</h2>
+                
+                <div class="appointments-filters">
+                    <div class="filter-row">
+                        <div class="form-group">
+                            <label for="filterStatus">Status:</label>
+                            <select id="filterStatus">
+                                <option value="all">Todos</option>
+                                <option value="pending">Pendentes</option>
+                                <option value="confirmed">Confirmados</option>
+                                <option value="completed">Realizados</option>
+                                <option value="cancelled">Cancelados</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="filterDate">Data:</label>
+                            <input type="date" id="filterDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="filterService">Serviço:</label>
+                            <select id="filterService">
+                                <option value="all">Todos os Serviços</option>
+                            </select>
+                        </div>
+                        <button id="applyFilters" class="btn-primary">
+                            <i class="fas fa-filter"></i> Filtrar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="appointments-table">
+                    <div class="table-header">
+                        <h3>Lista de Agendamentos</h3>
+                        <button id="exportAppointments" class="btn-secondary">
+                            <i class="fas fa-download"></i> Exportar
+                        </button>
+                    </div>
+                    <div id="appointmentsTable" class="appointments-table-content">
+                        <!-- Tabela será preenchida dinamicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Tab -->
+            <div id="services" class="tab-content">
+                <h2>Gerenciar Serviços</h2>
+                <form id="serviceForm" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="serviceName">Nome do Serviço:</label>
+                            <input type="text" id="serviceName" name="serviceName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="servicePrice">Preço (R$):</label>
+                            <input type="number" id="servicePrice" name="servicePrice" step="0.01" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="serviceDuration">Duração (min):</label>
+                            <input type="number" id="serviceDuration" name="serviceDuration" min="15" step="15" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceDescription">Descrição:</label>
+                        <textarea id="serviceDescription" name="serviceDescription" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Adicionar Serviço</button>
+                </form>
+
+                <div class="services-list">
+                    <h3>Serviços Cadastrados</h3>
+                    <div id="servicesList" class="services-grid">
+                        <!-- Lista será preenchida dinamicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schedule Tab -->
+            <div id="schedule" class="tab-content">
+                <h2>Gerenciar Horários</h2>
+                
+                <div class="schedule-controls">
+                    <button id="addTimeSlot" class="btn-primary">
+                        <i class="fas fa-cog"></i> Configurar Horários
+                    </button>
+                    <button id="validateSchedule" class="btn-secondary">
+                        <i class="fas fa-check-circle"></i> Validar Horários
+                    </button>
+                </div>
+
+                <div class="schedule-validation">
+                    <h3>Validação de Horários</h3>
+                    <div class="validation-info">
+                        <p><strong>Próximas Datas Disponíveis:</strong> <span id="nextAvailableDates"></span></p>
+                        <p><strong>Horários com Conflitos:</strong> <span id="conflictSlots"></span></p>
+                        <p><strong>Capacidade Semanal:</strong> <span id="weeklyCapacity"></span></p>
+                    </div>
+                </div>
+
+                <div class="schedule-grid">
+                    <div class="day-column">
+                        <h3>Segunda</h3>
+                        <div id="monday-slots" class="time-slots"></div>
+                    </div>
+                    <div class="day-column">
+                        <h3>Terça</h3>
+                        <div id="tuesday-slots" class="time-slots"></div>
+                    </div>
+                    <div class="day-column">
+                        <h3>Quarta</h3>
+                        <div id="wednesday-slots" class="time-slots"></div>
+                    </div>
+                    <div class="day-column">
+                        <h3>Quinta</h3>
+                        <div id="thursday-slots" class="time-slots"></div>
+                    </div>
+                    <div class="day-column">
+                        <h3>Sexta</h3>
+                        <div id="friday-slots" class="time-slots"></div>
+                    </div>
+                    <div class="day-column">
+                        <h3>Sábado</h3>
+                        <div id="saturday-slots" class="time-slots"></div>
+                    </div>
+                    <div class="day-column">
+                        <h3>Domingo</h3>
+                        <div id="sunday-slots" class="time-slots"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <h2>Configurações da Empresa</h2>
+                <form id="businessForm" class="admin-form">
+                    <div class="form-group">
+                        <label for="businessName">Nome da Empresa:</label>
+                        <input type="text" id="businessName" name="businessName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="businessPhone">WhatsApp da Empresa:</label>
+                        <input type="tel" id="businessPhone" name="businessPhone" placeholder="(11) 99999-9999" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="businessAddress">Endereço:</label>
+                        <input type="text" id="businessAddress" name="businessAddress">
+                    </div>
+                    <div class="form-group">
+                        <label for="businessDescription">Descrição:</label>
+                        <textarea id="businessDescription" name="businessDescription" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="color-settings">
+                        <h3>Personalização de Cores - Página do Cliente</h3>
+                        <div class="color-row">
+                            <div class="color-group">
+                                <label for="primaryColor">Cor Principal:</label>
+                                <input type="color" id="primaryColor" name="primaryColor" value="#4CAF50">
+                            </div>
+                            <div class="color-group">
+                                <label for="secondaryColor">Cor Secundária:</label>
+                                <input type="color" id="secondaryColor" name="secondaryColor" value="#2196F3">
+                            </div>
+                            <div class="color-group">
+                                <label for="accentColor">Cor de Destaque:</label>
+                                <input type="color" id="accentColor" name="accentColor" value="#FF9800">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-color-controls">
+                        <h4>Personalização de Cores - Painel Administrativo</h4>
+                        <div class="admin-color-row">
+                            <div class="admin-color-group">
+                                <label for="adminPrimaryColor">Cor Principal:</label>
+                                <input type="color" id="adminPrimaryColor" name="adminPrimaryColor" value="#4CAF50">
+                            </div>
+                            <div class="admin-color-group">
+                                <label for="adminSecondaryColor">Cor Secundária:</label>
+                                <input type="color" id="adminSecondaryColor" name="adminSecondaryColor" value="#2196F3">
+                            </div>
+                            <div class="admin-color-group">
+                                <label for="adminAccentColor">Cor de Destaque:</label>
+                                <input type="color" id="adminAccentColor" name="adminAccentColor" value="#FF9800">
+                            </div>
+                            <div class="admin-color-group">
+                                <label for="adminBgColor">Cor de Fundo:</label>
+                                <input type="color" id="adminBgColor" name="adminBgColor" value="#f5f7fa">
+                            </div>
+                        </div>
+                        
+                        <div class="color-preview">
+                            <h5>Preview das Cores do Painel Admin:</h5>
+                            <div class="preview-item">
+                                <div class="preview-color" id="previewPrimary"></div>
+                                <span>Cor Principal</span>
+                            </div>
+                            <div class="preview-item">
+                                <div class="preview-color" id="previewSecondary"></div>
+                                <span>Cor Secundária</span>
+                            </div>
+                            <div class="preview-item">
+                                <div class="preview-color" id="previewAccent"></div>
+                                <span>Cor de Destaque</span>
+                            </div>
+                            <div class="preview-item">
+                                <div class="preview-color" id="previewBg"></div>
+                                <span>Cor de Fundo</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="adminPanel.saveColorSettings()">Aplicar Cores</button>
+                        <button type="submit" class="btn-primary">Salvar Configurações</button>
+                    </div>
+                </form>
+                
+                <div class="dashboard-config">
+                    <h3>Configurações do Dashboard</h3>
+                    <p>Selecione quais elementos devem aparecer na aba Dashboard:</p>
+                    
+                    <div class="dashboard-flags">
+                        <div class="flag-group">
+                            <label class="flag-checkbox">
+                                <input type="checkbox" id="showTodayAppointments" checked>
+                                <span>Agendamentos Hoje</span>
+                            </label>
+                        </div>
+                        
+                        <div class="flag-group">
+                            <label class="flag-checkbox">
+                                <input type="checkbox" id="showWeekAppointments" checked>
+                                <span>Agendamentos da Semana</span>
+                            </label>
+                        </div>
+                        
+                        <div class="flag-group">
+                            <label class="flag-checkbox">
+                                <input type="checkbox" id="showTotalServices" checked>
+                                <span>Total de Serviços</span>
+                            </label>
+                        </div>
+                        
+                        <div class="flag-group">
+                            <label class="flag-checkbox">
+                                <input type="checkbox" id="showActiveSlots" checked>
+                                <span>Horários Ativos</span>
+                            </label>
+                        </div>
+                        
+                        <div class="flag-group">
+                            <label class="flag-checkbox">
+                                <input type="checkbox" id="showPendingAppointments" checked>
+                                <span>Agendamentos Pendentes</span>
+                            </label>
+                        </div>
+                        
+                        <div class="flag-group">
+                            <label class="flag-checkbox">
+                                <input type="checkbox" id="showConfirmedAppointments" checked>
+                                <span>Agendamentos Confirmados</span>
+                            </label>
+                        </div>
+                        
+                        <div class="flag-group">
+                            <label class="flag-checkbox">
+                                <input type="checkbox" id="showRecentAppointments" checked>
+                                <span>Agendamentos Recentes</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-actions">
+                        <button type="button" class="btn-primary" onclick="adminPanel.saveDashboardConfig()">Salvar Configurações do Dashboard</button>
+                        <button type="button" class="btn-secondary" onclick="adminPanel.resetDashboardConfig()">Restaurar Padrão</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para configuração de horários -->
+    <div id="timeSlotModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Adicionar Horários de Atendimento</h3>
+            <form id="timeSlotForm">
+                <div class="form-group">
+                    <label for="averageDuration">Tempo Médio de Atendimento (minutos):</label>
+                    <input type="number" id="averageDuration" name="averageDuration" value="60" min="15" step="15" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Dias da Semana Disponíveis:</label>
+                    <div class="days-checkboxes">
+                        <label class="day-checkbox">
+                            <input type="checkbox" name="days" value="monday">
+                            <span>Segunda</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" name="days" value="tuesday">
+                            <span>Terça</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" name="days" value="wednesday">
+                            <span>Quarta</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" name="days" value="thursday">
+                            <span>Quinta</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" name="days" value="friday">
+                            <span>Sexta</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" name="days" value="saturday">
+                            <span>Sábado</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" name="days" value="sunday">
+                            <span>Domingo</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="startTime">Horário de Início:</label>
+                    <input type="time" id="startTime" name="startTime" value="09:00" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="endTime">Horário de Fim:</label>
+                    <input type="time" id="endTime" name="endTime" value="18:00" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Adicionar Horários</button>
+                    <button type="button" class="btn-secondary" onclick="adminPanel.closeTimeSlotModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>
